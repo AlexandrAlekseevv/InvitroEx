@@ -1,18 +1,12 @@
 package driver;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-public class DriverSingleton  {
+public class DriverManager {
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
-    private DriverSingleton() {
+    private DriverManager() {
     }
 
     public static WebDriver getDriver() {

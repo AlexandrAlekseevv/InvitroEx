@@ -2,40 +2,53 @@ package pages.invitro;
 
 import com.codeborne.selenide.*;
 import config.ConfigLoader;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.Allure.step;
 
 public class RadiologyPage {
     private static final String PAGE_URL = ConfigLoader.getProperty("radiology.page.url");
-    private SelenideElement pageTitle = $(By.id("titlePage"));
+    private final SelenideElement pageTitle = $(By.id("titlePage"));
     private final ElementsCollection sideMenuItems = $$x("//li[@class='side-bar-second__items']");
 
     public void openPage() {
-        open(PAGE_URL);
+
+        step("Открываем страницу радиологии", () -> open(PAGE_URL));
     }
 
 
+    @Step("Щелкните все пункты меню и убедитесь в успехе")
     public boolean clickAllMenuItemsSuccess() {
         for (int i = 0; i < sideMenuItems.size(); i++) {
-            sideMenuItems.get(i).shouldBe(Condition.visible, Duration.ofSeconds(7)).click();
-            if (!sideMenuItems.get(i).text().contains(sideMenuItems.get(i).text())) {
-                return false;
-            }
+            clickMenuItem(sideMenuItems.get(i));
+
             ElementsCollection sideSubMenuItems = $$x("//li[@class='side-bar-second__items side-bar__items--active']/div/ul/li");
             if (!sideSubMenuItems.isEmpty()) {
                 for (int j = 0; j < sideSubMenuItems.size(); j++) {
-                    sideSubMenuItems.get(j).shouldBe(Condition.visible, Duration.ofSeconds(7)).click();
-                    System.out.println(sideSubMenuItems.get(j).text() + " : " + pageTitle.text());
-                    if (!pageTitle.text().contains(sideSubMenuItems.get(j).text())) {
+                    String subMenuItemText = sideSubMenuItems.get(j).text();
+                    clickSubMenuItem(sideSubMenuItems.get(j));
+                    if (!pageTitle.text().contains(subMenuItemText)) {
                         return false;
                     }
                 }
             }
         }
-                return true;
+        return true;
+    }
+
+    @Step("Нажмите на пункт меню {index}: {text}")
+    private void clickMenuItem(SelenideElement menuItem) {
+        menuItem.shouldBe(Condition.visible, Duration.ofSeconds(7)).click();
+    }
+
+    @Step("Нажмите на пункт подменю {index}: {text}")
+    private void clickSubMenuItem(SelenideElement subMenuItem) {
+        subMenuItem.shouldBe(Condition.visible, Duration.ofSeconds(7)).click();
+        System.out.println(subMenuItem.text() + " : " + pageTitle.text());
     }
 }
 

@@ -1,26 +1,41 @@
 @ui
 Feature: Invitro tests
 
-  Scenario: Test medical services menu
-    Given open the Radiology page
-    When click through all the items in the medical services menu
-    Then All menu items should be accessible
+  @first
+  Scenario: Меню радиологических услуг прокликивается
+    Given открыта страницу Радиология
+    When прокликиваем все пункты меню радиологических услуг
+    Then все пункты меню должны быть доступны
 
-  Scenario Outline: Change city to "<NewCity>"
-    Given open the Invitro main page
-    When change the city to "<NewCity>"
-    Then the city should be changed to "<NewCity>"
+  @second
+  Scenario Outline: Измените город на "<NewCity>"
+    Given открываем главную страницу Invitro
+    When изменяем город на "<NewCity>"
+    Then город должен быть изменен на "<NewCity>"
     Examples:
       | NewCity |
       | Омск    |
-#
-#  Scenario: Get test results
-#    Given I open the Invitro website
-#    When I try to get test results without filling the fields
-#    Then The fields should be highlighted in red with warnings
-#    When I fill in the fields with INZ code "231231231", birth date "11.12.2000", and surname "тест"
-#    Then The fields should contain the correct values
-#
+
+  @third
+  Scenario: Проверка валидности формы и ввода полей
+    Given открываем главную страницу Invitro
+    When нажимаем кнопку Результаты анализов
+    Then название открывшейся страницы "Enter your individual order number to view the test results"
+    When нажимаем на кнопку "Search result", не заполняя поля
+    Then поля должны быть выделены красным цветом
+    And должно появиться предупреждающее сообщение
+#    When fill in the fields
+#      | field          | value         |
+#      | Order number   | 231231231     |
+#      | Birth date     | 11.12.2000    |
+#      | Last name      | тест          |
+#    Then the fields should contain the following values
+#      | field          | value         |
+#      | Order number   | 231231231     |
+#      | Birth date     | 11.12.2000    |
+#      | Last name      | тест          |
+
+
 #  Scenario: Compare product prices
 #    Given I open the Invitro website
 #    When I remember the product price on the analysis page

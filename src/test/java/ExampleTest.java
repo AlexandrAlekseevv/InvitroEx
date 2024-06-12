@@ -1,15 +1,10 @@
-import com.codeborne.selenide.SelenideDriver;
-import driver.DriverSingleton;
+import driver.DriverManager;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pages.invitro.MainPage;
-import pages.invitro.RadiologyPage;
 
-import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.setWebDriver;
-import static driver.DriverSingleton.getDriver;
+import static driver.DriverManager.getDriver;
 
 public class ExampleTest {
     @BeforeEach
@@ -18,7 +13,7 @@ public class ExampleTest {
     }
     @AfterEach
     public void tearDown() {
-        DriverSingleton.closeDriver();
+        DriverManager.closeDriver();
     }
 
 
