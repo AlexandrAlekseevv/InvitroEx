@@ -40,15 +40,15 @@ public class RadiologyPage {
         return true;
     }
 
-    @Step("Нажмите на пункт меню {index}: {text}")
+
     private void clickMenuItem(SelenideElement menuItem) {
-        menuItem.shouldBe(Condition.visible, Duration.ofSeconds(7)).click();
+        step("Нажмите на пункт меню : " + menuItem.shouldBe(Condition.visible, Duration.ofSeconds(15)).text(),
+                () -> menuItem.click());
     }
 
-    @Step("Нажмите на пункт подменю {index}: {text}")
     private void clickSubMenuItem(SelenideElement subMenuItem) {
-        subMenuItem.shouldBe(Condition.visible, Duration.ofSeconds(7)).click();
-        System.out.println(subMenuItem.text() + " : " + pageTitle.text());
+        step("Нажмите на пункт подменю : " + subMenuItem.shouldBe(Condition.visible, Duration.ofSeconds(15)).text(),
+                () -> subMenuItem.click());
     }
 }
 
