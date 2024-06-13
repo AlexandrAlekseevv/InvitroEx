@@ -26,11 +26,24 @@ Feature: Invitro tests
     And должно появиться предупреждающее сообщение
     When вводим данные индивидуального заказа для "<userId>"
     Then поля должны содержать введённые значения "<userId>"
-  Examples:
-    | userId |
-    | user1  |
-    | user2  |
+    Examples:
+      | userId |
+      | user1  |
+      | user2  |
 
+  @fourth
+    @fifth
+  Scenario Outline: сравниваем сумму в корзине с запомненной суммой
+    Given пользователь находится на странице Анализы
+    When ищем анализ по коду в поисковой строке "<AnalyzeCode>"
+    When пользователь сохраняет цену выбраного анализа "<AnalyzeCode>"
+    And пользователь добавляет выбранный анализ "<AnalyzeCode>" в корзину
+    And кликаем по иконке корзины
+    Then цена в корзине должна совпадать с сохраненной ценой
+    Examples:
+      | AnalyzeCode |
+      | 16          |
+      | 1515        |
 
 #  Scenario: Compare product prices
 #    Given I open the Invitro website

@@ -1,4 +1,4 @@
-package pages.invitro;
+package pages.lk3_invitro;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
@@ -84,18 +84,4 @@ public class TestResultsPage {
         field.shouldHave(Condition.value(expectedValue));
     }
 
-    private void setDate(String date) {
-        // Разбиваем строку даты на составляющие (день, месяц, год)
-        String[] parts = date.split("\\.");
-
-        // Находим элементы ввода для дня, месяца и года
-        SelenideElement dayInput = $(".react-datepicker__year-select");
-        SelenideElement monthInput = $(".react-datepicker__month-select");
-        SelenideElement yearInput = $(".react-datepicker__year-select");
-
-        // Устанавливаем значения в соответствующие поля
-        dayInput.setValue(parts[0]);
-        monthInput.setValue(parts[1]);
-        yearInput.setValue(parts[2]);
-    }
 }

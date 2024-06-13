@@ -5,11 +5,13 @@ import com.codeborne.selenide.SelenideElement;
 import config.ConfigLoader;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Keys;
+import pages.lk3_invitro.TestResultsPage;
 
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
 public class MainPage {
+
     private static final String PAGE_URL = ConfigLoader.getPageURL("main.page.url");
     private final SelenideElement cityButton = $x("//span[@class='city__name city__btn city__name--label']");
     private final SelenideElement citySearchInput = $("#select-basket-city-input");
