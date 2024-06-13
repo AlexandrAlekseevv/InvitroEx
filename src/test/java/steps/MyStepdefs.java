@@ -12,7 +12,7 @@ public class MyStepdefs {
     private final ThreadLocal<MainPage> mainPage = ThreadLocal.withInitial(MainPage::new);
     private final ThreadLocal<TestResultsPage> testResultPage = ThreadLocal.withInitial(TestResultsPage::new);
 
-    @When("открыта страницу Радиология")
+    @When("открыта страница Радиология")
     public void openTheRadiology() {
         radiologyPage.get().openPage();
     }
@@ -28,7 +28,6 @@ public class MyStepdefs {
 
     @When("открываем главную страницу Invitro")
     public void openTheInvitroWebsite() {
-
         mainPage.get().openPage();
     }
 
@@ -53,7 +52,7 @@ public class MyStepdefs {
         Assertions.assertEquals(titleOfPage, testResultPage.get().getTextOfPageTirle());
     }
 
-    @When("нажимаем на кнопку \"Search result\", не заполняя поля")
+    @When("нажимаем на кнопку \"Найти результаты\", не заполняя поля")
     public void clickOnWithoutFillingTheFields() {
         testResultPage.get().clickOnSearchResultButton();
     }
@@ -68,6 +67,15 @@ public class MyStepdefs {
         testResultPage.get().theWarningMessageShouldBeDisplayed();
     }
 
+    @When("вводим данные индивидуального заказа для {string}")
+    public void enterIndividualOrderDataFor(String userID) {
+        testResultPage.get().iEnterIndividualOrderDetailsFor(userID);
+    }
 
 
+
+    @Then("поля должны содержать введённые значения {string}")
+    public void fieldsMustContainEnteredValues(String userId) {
+        testResultPage.get().theFieldsShouldContainCorrectValuesFor(userId);
+    }
 }

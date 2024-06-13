@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
 public class MainPage {
-    private static final String PAGE_URL = ConfigLoader.getProperty("main.page.url");
+    private static final String PAGE_URL = ConfigLoader.getPageURL("main.page.url");
     private final SelenideElement cityButton = $x("//span[@class='city__name city__btn city__name--label']");
     private final SelenideElement citySearchInput = $("#select-basket-city-input");
     private final SelenideElement headerButtonTestResult = $x("//a[@class='invitro_header-get_result' and @rel='index nofollow']");

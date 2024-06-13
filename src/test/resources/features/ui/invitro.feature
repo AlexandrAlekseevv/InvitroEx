@@ -3,7 +3,7 @@ Feature: Invitro tests
 
   @first
   Scenario: Меню радиологических услуг прокликивается
-    Given открыта страницу Радиология
+    Given открыта страница Радиология
     When прокликиваем все пункты меню радиологических услуг
     Then все пункты меню должны быть доступны
 
@@ -17,23 +17,19 @@ Feature: Invitro tests
       | Омск    |
 
   @third
-  Scenario: Проверка валидности формы и ввода полей
+  Scenario Outline: Проверка валидности формы и ввода полей
     Given открываем главную страницу Invitro
     When нажимаем кнопку Результаты анализов
-    Then название открывшейся страницы "Enter your individual order number to view the test results"
-    When нажимаем на кнопку "Search result", не заполняя поля
+    Then название открывшейся страницы "Введите индивидуальный номер заказа, чтобы посмотреть результаты анализов"
+    When нажимаем на кнопку "Найти результаты", не заполняя поля
     Then поля должны быть выделены красным цветом
     And должно появиться предупреждающее сообщение
-#    When fill in the fields
-#      | field          | value         |
-#      | Order number   | 231231231     |
-#      | Birth date     | 11.12.2000    |
-#      | Last name      | тест          |
-#    Then the fields should contain the following values
-#      | field          | value         |
-#      | Order number   | 231231231     |
-#      | Birth date     | 11.12.2000    |
-#      | Last name      | тест          |
+    When вводим данные индивидуального заказа для "<userId>"
+    Then поля должны содержать введённые значения "<userId>"
+  Examples:
+    | userId |
+    | user1  |
+    | user2  |
 
 
 #  Scenario: Compare product prices

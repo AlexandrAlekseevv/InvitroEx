@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
 public class RadiologyPage {
-    private static final String PAGE_URL = ConfigLoader.getProperty("radiology.page.url");
+    private static final String PAGE_URL = ConfigLoader.getPageURL("radiology.page.url");
     private final SelenideElement pageTitle = $(By.id("titlePage"));
     private final ElementsCollection sideMenuItems = $$x("//li[@class='side-bar-second__items']");
 

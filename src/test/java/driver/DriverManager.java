@@ -1,6 +1,7 @@
 package driver;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverManager {
@@ -11,33 +12,25 @@ public class DriverManager {
 
     public static WebDriver getDriver() {
 
-        if(null==driverThreadLocal.get()){
-//            switch (System.getProperty("browser").toLowerCase()){
-//                case "firefox":
-//
-//                    driverThreadLocal.set( new FirefoxDriver());
-//                    break;
-//                case "remote":
-//                    WebDriverManager.chromedriver().setup();
-//                    ChromeOptions chromeOptions = new ChromeOptions();
-//                    try {
-//                        driver = new RemoteWebDriver(new URL("http://192.168.1.183:4444/wd/hub"), chromeOptions);
-//                    } catch (MalformedURLException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    break;
-//                default:
-//                    WebDriverManager.chromedriver().setup();
-//                    driver = new ChromeDriver();
-//                    break;
-//            }
-            driverThreadLocal.set( new FirefoxDriver());
-            driverThreadLocal.get().manage().window().maximize();
+        if (null == driverThreadLocal.get()) {
+            switch (System.getProperty("browser", "chrome").toLowerCase()) {
+                case "firefox":
 
+                    driverThreadLocal.set(new FirefoxDriver());
+                    break;
+                case "chrome":
+                    driverThreadLocal.set(new ChromeDriver());
+                    break;
+
+                default:
+                    driverThreadLocal.set(new ChromeDriver());
+                    break;
+            }
+            driverThreadLocal.get().manage().window().maximize();
         }
 
         return driverThreadLocal.get();
-    }
+}
 
     public static void closeDriver() {
         if (driverThreadLocal.get() != null) {

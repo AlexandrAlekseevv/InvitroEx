@@ -1,25 +1,34 @@
 package pages.invitro;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import config.ConfigLoader;
 import io.qameta.allure.Step;
+import models.IndividualOrderNumberForm;
+import service.IndividualOrderNumberFormCreator;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
 public class TestResultsPage {
-    private static final String PAGE_URL = ConfigLoader.getProperty("test.results.page.url");
+    private static final String PAGE_URL = ConfigLoader.getPageURL("test.results.page.url");
 
-    private final SelenideElement searchResultButton = $x("//button[text()='Search results']");
+    private final SelenideElement selectLanguageButton = $x("//header[@class='Header_header__fI9zR Header_show__rulEm']//div[@class='LanguageSelector_selector__bN2Cx css-2b097c-container']");
+    private final SelenideElement languageButtonRU = $x("//div[@id='react-select-3-option-1']");
+    private final SelenideElement searchResultButton = $x("//div[@class='']/button[@class= 'Button_button__Zk130 UnauthResultsPage_buttonWithIcon__xwbHQ']");
     private final SelenideElement pageTitle = $x("//h2");
     private final SelenideElement orderNumberInputField = $x("//input[@name='orderNumber']");
     private final SelenideElement birthDateInputField = $x("//input[@name='birthday']");
     private final SelenideElement lastNamInputField = $x("//input[@name='lastName']");
     private final SelenideElement warningMessage = $("div[class='UnauthResultsPage_error__m2C-2']");
-    private final SelenideElement recaptchaAnchorLabel = $x("//input[@name='lastName']");
 
 
+    {
+        selectLanguageButton.shouldBe(visible).click();
+        languageButtonRU.shouldBe(visible).click();
+        selectLanguageButton.shouldBe(text("ru"));
+    }
 
 
     public void openPage() {
@@ -47,7 +56,46 @@ public class TestResultsPage {
     @Step("появилось предупреждение \"Поля Код ИНЗ Дата рождения Фамилия обязательны для заполнения\"")
     public void theWarningMessageShouldBeDisplayed() {
         warningMessage.shouldBe(visible)
-                .shouldHave(matchText("Fields: Order number.*Birth date.*Last name.*are required for filling"));
+                .shouldHave(matchText("Поля Код ИНЗ.*Дата рождения.*Фамилия.*обязательны для заполнения"));
     }
 
+    @Step("заполняем поля : код ИНЗ, Дата рождения,Фамилия")
+    public void iEnterIndividualOrderDetailsFor(String userId) {
+        IndividualOrderNumberForm formData = IndividualOrderNumberFormCreator.withCredentialFromProperty(userId);
+        orderNumberInputField.setValue(formData.getOrderNumber());
+        birthDateInputField.click();
+        birthDateInputField.append(formData.getBirthday());
+        executeJavaScript(
+                "$('.react-datepicker-popper').hide();"
+        );
+        lastNamInputField.setValue(formData.getLastName());
+        step("введённые данные : " + formData);
+        sleep(3000);
+    }
+    @Step("проверяем, что в полях код ИНЗ, Дата рождения,Фамилия есть введёные значения")
+    public void theFieldsShouldContainCorrectValuesFor(String userId) {
+        IndividualOrderNumberForm formData = IndividualOrderNumberFormCreator.withCredentialFromProperty(userId);
+        verifyFieldValue("код ИНЗ", orderNumberInputField, formData.getOrderNumber());
+        verifyFieldValue("Дата рождения", birthDateInputField, formData.getBirthday());
+        verifyFieldValue("Фамилия", lastNamInputField, formData.getLastName());
+    }
+    @Step("Поле {fieldName} содержит значение {expectedValue}")
+    private void verifyFieldValue(String fieldName, SelenideElement field, String expectedValue) {
+        field.shouldHave(Condition.value(expectedValue));
+    }
+
+    private void setDate(String date) {
+        // Разбиваем строку даты на составляющие (день, месяц, год)
+        String[] parts = date.split("\\.");
+
+        // Находим элементы ввода для дня, месяца и года
+        SelenideElement dayInput = $(".react-datepicker__year-select");
+        SelenideElement monthInput = $(".react-datepicker__month-select");
+        SelenideElement yearInput = $(".react-datepicker__year-select");
+
+        // Устанавливаем значения в соответствующие поля
+        dayInput.setValue(parts[0]);
+        monthInput.setValue(parts[1]);
+        yearInput.setValue(parts[2]);
+    }
 }
