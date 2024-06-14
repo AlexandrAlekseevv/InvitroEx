@@ -25,9 +25,6 @@ public class AnalyzesForDoctorsPage {
         return $x("//div[@class='analyzes-item__head--number']/span[text()= '№ " + numberOfAnalyze + "']");
     }
 
-    public String getAnalysisTitle(SelenideElement analysisElement) {
-        return analysisElement.$x(".//ancestor::div[contains(@class, 'analyzes-list')]//div[@class='analyzes-item__title']").getText();
-    }
 
     @Step("Получаем стоимость выбраного анализа")
     public String getAnalysisPrice(SelenideElement analysisElement) {
