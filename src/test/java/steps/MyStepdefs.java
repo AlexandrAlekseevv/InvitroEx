@@ -1,11 +1,10 @@
 package steps;
 
 import com.codeborne.selenide.SelenideElement;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.qameta.allure.Owner;
+import models.enums.Section;
 import org.junit.jupiter.api.Assertions;
 import pages.invitro.AnalyzesForDoctorsPage;
 import pages.invitro.MainPage;
@@ -60,7 +59,7 @@ public class MyStepdefs {
 
     @Then("название открывшейся страницы {string}")
     public void theTitleOfThePageThatOpensIs(String titleOfPage) {
-        Assertions.assertEquals(titleOfPage, testResultPage.get().getTextOfPageTirle());
+        Assertions.assertEquals(titleOfPage, testResultPage.get().getTextOfPageTitle());
     }
 
     @When("нажимаем на кнопку \"Найти результаты\", не заполняя поля")
@@ -93,16 +92,15 @@ public class MyStepdefs {
         analyzesPage.get().openPage();
     }
 
-    @When("пользователь сохраняет цену выбраного анализа {string}")
+    @When("пользователь сохраняет цену выбранного анализа {string}")
     public void userSavesThePriceOfAnalysisNumber(String number) {
         SelenideElement analysisElement = analyzesPage.get().getAnalysisByNumber(number);
-        step("стоимость анализа : " + savedPrice,() ->{
-
         savedPrice = analyzesPage.get().getAnalysisPrice(analysisElement);
-        });
+        step("стоимость анализа : " + savedPrice);
+
     }
 
-    @And("пользователь добавляет выбранный анализ {string} в корзину")
+    @When("пользователь добавляет выбранный анализ {string} в корзину")
     public void userAddsAnalysisNumberToTheCart(String number) {
         SelenideElement analysisElement = analyzesPage.get().getAnalysisByNumber(number);
         analyzesPage.get().addAnalysisToCart(analysisElement);
@@ -134,5 +132,10 @@ public class MyStepdefs {
     @When("ищем анализ по коду в поисковой строке {string}")
     public void searchAnalysisByAnalyzeCodeInSearchField(String number) {
         analyzesPage.get().searchInSearchField(number);
+    }
+
+    @When("выбираю раздел {section}")
+    public void selectSection(Section section) {
+        mainPage.get().selectSection(section);
     }
 }

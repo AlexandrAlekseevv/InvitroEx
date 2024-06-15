@@ -95,6 +95,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
+                    <parallel>method</parallel>
+                    <threadCount>4</threadCount>
                     <testFailureIgnore>true</testFailureIgnore>
                     <argLine>-Dfile.encoding=${project.build.sourceEncoding}
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"

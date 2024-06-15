@@ -12,7 +12,6 @@ import static driver.DriverManager.getDriver;
 public class CucumberHooks {
     @Before("@ui")
     public void setUp() {
-
         SelenideLogger.addListener("allure", new AllureSelenide());
         setWebDriver(getDriver());
     }

@@ -13,7 +13,4 @@ public class ConfigLoader {
     public static String getTestData(String key){
         return resourceTestDataBundle.getString(key);
     }
-
-
-
 }

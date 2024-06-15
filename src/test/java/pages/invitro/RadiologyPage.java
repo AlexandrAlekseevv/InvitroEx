@@ -12,8 +12,8 @@ import static io.qameta.allure.Allure.step;
 
 public class RadiologyPage {
     private static final String PAGE_URL = ConfigLoader.getPageURL("radiology.page.url");
-    private final SelenideElement pageTitle = $(By.id("titlePage"));
-    private final ElementsCollection sideMenuItems = $$x("//li[@class='side-bar-second__items']");
+    private final SelenideElement pageTitle = $(By.id("titlePage")).as("Заголовок страницы");
+    private final ElementsCollection sideMenuItems = $$x("//li[@class='side-bar-second__items']").as("список страниц бокового меню");
 
     public void openPage() {
 
@@ -26,7 +26,7 @@ public class RadiologyPage {
         for (int i = 0; i < sideMenuItems.size(); i++) {
             clickMenuItem(sideMenuItems.get(i));
 
-            ElementsCollection sideSubMenuItems = $$x("//li[@class='side-bar-second__items side-bar__items--active']/div/ul/li");
+            ElementsCollection sideSubMenuItems = $$x("//li[@class='side-bar-second__items side-bar__items--active']/div/ul/li").as("Список подменю в" + sideMenuItems.get(i).text());
             if (!sideSubMenuItems.isEmpty()) {
                 for (int j = 0; j < sideSubMenuItems.size(); j++) {
                     String subMenuItemText = sideSubMenuItems.get(j).text();

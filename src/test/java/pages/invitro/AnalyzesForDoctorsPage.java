@@ -13,8 +13,8 @@ import static io.qameta.allure.Allure.step;
 public class AnalyzesForDoctorsPage {
     private static final String PAGE_URL = ConfigLoader.getPageURL("analyzes.for.doctors.page.url");
 
-    private final SelenideElement searchField = $x("//input[@name='q']");
-    private final SelenideElement inCartButton = $x("//div[@class='invitro_header-menu']//a[@href='https://lk3.invitro.ru/cart']");
+    private final SelenideElement searchField = $x("//input[@name='q']").as("Поле поиска");
+    private final SelenideElement inCartButton = $x("//div[@class='invitro_header-menu']//a[@href='https://lk3.invitro.ru/cart']").as("кнопка перехода в корзину");
 
     public void openPage() {
         step("Открываем страницу Анализы", () -> open(PAGE_URL));
@@ -26,7 +26,7 @@ public class AnalyzesForDoctorsPage {
     }
 
 
-    @Step("Получаем стоимость выбраного анализа")
+    @Step("Получаем стоимость выбранного анализа")
     public String getAnalysisPrice(SelenideElement analysisElement) {
         return analysisElement.$x(".//ancestor::div[contains(@class, 'analyzes-list')]//div[@class='analyzes-item__total--sum']").getText();
     }

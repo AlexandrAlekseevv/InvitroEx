@@ -7,6 +7,8 @@ import io.qameta.allure.Step;
 import models.IndividualOrderNumberForm;
 import service.IndividualOrderNumberFormCreator;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
@@ -27,7 +29,7 @@ public class TestResultsPage {
     {
         selectLanguageButton.shouldBe(visible).click();
         languageButtonRU.shouldBe(visible).click();
-        selectLanguageButton.shouldBe(text("ru"));
+        selectLanguageButton.shouldBe(text("ru"), Duration.ofSeconds(7));
     }
 
 
@@ -42,7 +44,7 @@ public class TestResultsPage {
     }
 
     @Step("проверяем текст заголовка страницы")
-    public String getTextOfPageTirle(){
+    public String getTextOfPageTitle(){
         return pageTitle.text();
     }
 
