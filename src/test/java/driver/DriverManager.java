@@ -22,6 +22,7 @@ public class DriverManager {
             switch (System.getProperty("browser", "chrome").toLowerCase()) {
                 case "firefox":
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    firefoxOptions.addArguments("--start-maximized");
                     try {
                         driverThreadLocal.set(new RemoteWebDriver(new URL("http://192.168.1.183:4444/wd/hub"), firefoxOptions));
                     } catch (MalformedURLException e) {
@@ -30,6 +31,7 @@ public class DriverManager {
                     break;
                 case "chrome":
                     ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.addArguments("--start-maximized");
                     try {
                         driverThreadLocal.set(new RemoteWebDriver(new URL("http://192.168.1.183:4444/wd/hub"), chromeOptions));
                     } catch (MalformedURLException e) {
@@ -41,7 +43,6 @@ public class DriverManager {
                     driverThreadLocal.set(new ChromeDriver());
                     break;
             }
-            driverThreadLocal.get().manage().window().maximize();
         }
 
         return driverThreadLocal.get();
