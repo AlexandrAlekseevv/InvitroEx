@@ -2,7 +2,13 @@ package driver;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class DriverManager {
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
@@ -15,11 +21,20 @@ public class DriverManager {
         if (null == driverThreadLocal.get()) {
             switch (System.getProperty("browser", "chrome").toLowerCase()) {
                 case "firefox":
-
-                    driverThreadLocal.set(new FirefoxDriver());
+                    FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    try {
+                        driverThreadLocal.set(new RemoteWebDriver(new URL("http://192.168.1.183:4444/wd/hub"), firefoxOptions));
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case "chrome":
-                    driverThreadLocal.set(new ChromeDriver());
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    try {
+                        driverThreadLocal.set(new RemoteWebDriver(new URL("http://192.168.1.183:4444/wd/hub"), chromeOptions));
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
 
                 default:

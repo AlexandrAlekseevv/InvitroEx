@@ -24,20 +24,35 @@ public class RadiologyPage {
     @Step("Щелкните все пункты меню и убедитесь в успехе")
     public boolean clickAllMenuItemsSuccess() {
         for (int i = 0; i < sideMenuItems.size(); i++) {
-            clickMenuItem(sideMenuItems.get(i));
-
-            ElementsCollection sideSubMenuItems = $$x("//li[@class='side-bar-second__items side-bar__items--active']/div/ul/li").as("Список подменю в" + sideMenuItems.get(i).text());
-            if (!sideSubMenuItems.isEmpty()) {
-                for (int j = 0; j < sideSubMenuItems.size(); j++) {
-                    String subMenuItemText = sideSubMenuItems.get(j).text();
-                    clickSubMenuItem(sideSubMenuItems.get(j));
-                    if (!pageTitle.text().contains(subMenuItemText)) {
-                        return false;
+            String menuItemName = sideMenuItems.get(i).text();
+            SelenideElement menuItem = sideMenuItems.get(i).as(menuItemName);
+            step("Обрабатываем пункт меню: " + menuItem, () -> {
+                clickMenuItem(menuItem);
+                ElementsCollection sideSubMenuItems = $$x("//li[@class='side-bar-second__items side-bar__items--active']/div/ul/li")
+                        .as("Список подменю в " + menuItem);
+                if(!isPageTitleContains(menuItemName)) {
+                    throw new AssertionError("Заголовок страницы "+pageTitle.text()+" не содержит текст: " + menuItemName);
+                }
+                if (!sideSubMenuItems.isEmpty()) {
+                    for (int j = 0; j < sideSubMenuItems.size(); j++) {
+                        String subMenuItemName = sideSubMenuItems.get(j).text();
+                        SelenideElement subMenuItem = sideSubMenuItems.get(j).as(subMenuItemName);
+                        step("Обрабатываем подменю: " + subMenuItem, () -> {
+                            clickSubMenuItem(subMenuItem);
+                            if (!isPageTitleContains(subMenuItemName)) {
+                                throw new AssertionError("Заголовок страницы "+pageTitle.text()+" не содержит текст: " + subMenuItemName);
+                            }
+                        });
                     }
                 }
-            }
+            });
         }
         return true;
+    }
+
+    @Step("Заголовок страницы содержит название пункта меню : {expectedString}")
+    private boolean isPageTitleContains(String expectedString) {
+        return step("Заголовок страницы " + pageTitle.text(),() ->pageTitle.text().contains(expectedString));
     }
 
 
