@@ -40,7 +40,9 @@ public class DriverManager {
                     break;
 
                 default:
-                    driverThreadLocal.set(new ChromeDriver());
+                    ChromeOptions localChromeOptions = new ChromeOptions();
+                    localChromeOptions.addArguments("--start-maximized");
+                    driverThreadLocal.set(new ChromeDriver(localChromeOptions));
                     break;
             }
         }
