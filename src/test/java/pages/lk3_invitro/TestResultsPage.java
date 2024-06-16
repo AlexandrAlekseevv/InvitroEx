@@ -16,19 +16,19 @@ import static io.qameta.allure.Allure.step;
 public class TestResultsPage {
     private static final String PAGE_URL = ConfigLoader.getPageURL("test.results.page.url");
 
-    private final SelenideElement selectLanguageButton = $x("//header[@class='Header_header__fI9zR Header_show__rulEm']//div[@class='LanguageSelector_selector__bN2Cx css-2b097c-container']");
-    private final SelenideElement languageButtonRU = $x("//div[@id='react-select-3-option-1']");
-    private final SelenideElement searchResultButton = $x("//div[@class='']/button[@class= 'Button_button__Zk130 UnauthResultsPage_buttonWithIcon__xwbHQ']");
-    private final SelenideElement pageTitle = $x("//h2");
-    private final SelenideElement orderNumberInputField = $x("//input[@name='orderNumber']");
-    private final SelenideElement birthDateInputField = $x("//input[@name='birthday']");
-    private final SelenideElement lastNamInputField = $x("//input[@name='lastName']");
-    private final SelenideElement warningMessage = $("div[class='UnauthResultsPage_error__m2C-2']");
+    private final SelenideElement selectLanguageButton = $x("//header[@class='Header_header__fI9zR Header_show__rulEm']//div[@class='LanguageSelector_selector__bN2Cx css-2b097c-container']").as("Кнопка смены языка");
+    private final SelenideElement languageButtonRU = $x("//div[@id='react-select-3-option-1']").as("выбор русского языка");
+    private final SelenideElement searchResultButton = $x("//div[@class='']/button[@class= 'Button_button__Zk130 UnauthResultsPage_buttonWithIcon__xwbHQ']").as("кнопка <Найти результаты>");
+    private final SelenideElement pageTitle = $x("//h2").as("Заголовок страницы");
+    private final SelenideElement orderNumberInputField = $x("//input[@name='orderNumber']").as("Код ИНЗ");
+    private final SelenideElement birthDateInputField = $x("//input[@name='birthday']").as("Дата рождения");;
+    private final SelenideElement lastNamInputField = $x("//input[@name='lastName']").as("Фамилия");;
+    private final SelenideElement warningMessage = $("div[class='UnauthResultsPage_error__m2C-2']").as("Сообщение об ошибке");;
 
 
     {
-        selectLanguageButton.shouldBe(visible).click();
-        languageButtonRU.shouldBe(visible).click();
+        selectLanguageButton.shouldBe(visible,Duration.ofSeconds(10)).click();
+        languageButtonRU.shouldBe(visible,Duration.ofSeconds(10)).click();
         selectLanguageButton.shouldBe(text("ru"), Duration.ofSeconds(7));
     }
 

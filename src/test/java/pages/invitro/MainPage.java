@@ -8,6 +8,9 @@ import models.enums.Section;
 import org.openqa.selenium.Keys;
 import pages.lk3_invitro.TestResultsPage;
 
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
@@ -30,10 +33,9 @@ public class MainPage {
 
     @Step("Смена города на {city}")
     public void changeCity(String city) {
-        String currentCity = getSelectedCityName();
         cityButton.click();
         confirmChangeCityButton.click();
-        citySearchInput.shouldBe(Condition.visible).sendKeys(city, Keys.ARROW_DOWN, Keys.ENTER);
+        citySearchInput.shouldBe(visible,Duration.ofSeconds(10)).sendKeys(city, Keys.ARROW_DOWN, Keys.ENTER);
     }
 
     @Step("Ожидаем изменения города на {city}")
@@ -43,13 +45,10 @@ public class MainPage {
 
     @Step("Открываем страницу с результатами анализов")
     public void openTestResultPage() {
-        step("нажимаем кнопку \"Результаты анализов\"", () -> headerButtonTestResult.shouldBe(Condition.visible).click());
+        step("нажимаем кнопку \"Результаты анализов\"", () -> headerButtonTestResult.shouldBe(visible).click());
         new TestResultsPage();
     }
 
-    private String getSelectedCityName() {
-        return cityButton.text();
-    }
 
     @Step("Выбираю раздел {section.displayName}")
     public void selectSection(Section section) {
@@ -58,7 +57,7 @@ public class MainPage {
             step("В аудитории выбираем подсекцию: " + section.getDisplayName(), () -> {
                 SelenideElement audienceSubmenu = $x(String.format(audienceSubmenuTemplate, section.getDisplayName()))
                         .as(section.getDisplayName());
-                audienceSubmenu.click();
+                audienceSubmenu.shouldBe(visible, Duration.ofSeconds(10)).click();
             });
         }
     }
