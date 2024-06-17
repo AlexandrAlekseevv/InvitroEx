@@ -16,6 +16,7 @@ Feature: Invitro tests
       | NewCity |
       | Омск    |
 
+  @blocker
   @third
   Scenario Outline: Проверка валидности формы и ввода полей
     Given открываем главную страницу Invitro

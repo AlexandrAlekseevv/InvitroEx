@@ -7,8 +7,6 @@ import io.qameta.allure.Step;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
@@ -20,7 +18,7 @@ public class CartPage {
     public void openPage() {
         step("Открываем корзину", () -> open(PAGE_URL));
     }
-    @Step("Получаем стоимость выбраных анализов")
+    @Step("Получаем стоимость выбранных анализов")
     public String getCartPrice() {
         return products.shouldBe(Condition.visible, Duration.ofSeconds(10)).text();
     }

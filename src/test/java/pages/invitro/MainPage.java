@@ -15,10 +15,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
 public class MainPage {
-
     private static final String PAGE_URL = ConfigLoader.getPageURL("main.page.url");
-
-
     private final SelenideElement cityButton = $x("//span[@class='city__name city__btn city__name--label']").as("Кнопка выбора города");
     private final SelenideElement citySearchInput = $("#select-basket-city-input").as("Поле ввода поиска города");
     private final SelenideElement headerButtonTestResult = $x("//a[@class='invitro_header-get_result' and @rel='index nofollow']").as("Кнопка результатов анализов");
